@@ -1,0 +1,10 @@
+<%- include('../partials/header', {subtitle: 'New Post'}); %>
+<h1>Create New Post</h1>
+<form method="post">
+    <input type="title" name="title" class="form-control form-control-lg" placeholder="Title" required>
+    <input type="summary" name="summary" class="form-control mt-1" placeholder="Summary" required>
+    <textarea name="content" class="form-control mt-1" rows="10"></textarea>
+    <input name="author" type="title" class="form-control form-control-sm mt-1" placeholder="Author" required>
+    <button type="submit" class="btn btn-primary mt-1">Create Post</button>
+</form>
+<%- include('../partials/footer'); %>

@@ -1,0 +1,7 @@
+<%- include('../partials/header'); %>
+<div class="mt-1 list-group">
+<% for(let post of posts) { %>
+    <%- include('../partials/post_summary', {post}); %>
+<% } %>
+</div>
+<%- include('../partials/footer'); %>

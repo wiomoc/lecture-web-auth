@@ -1,0 +1,7 @@
+<%- include('../partials/header', {subtitle: 'New Post'}); %>
+<h1><%= post.title%></h1>
+<div class="blockquote-footer mt-1"><%= post.author%> </div>
+<div class="mt-2">
+<%- htmlContent %>
+</div>
+<%- include('../partials/footer'); %>
