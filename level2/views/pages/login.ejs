@@ -1,0 +1,20 @@
+<%- include('../partials/header', {subtitle: 'Login', hideNav: true}); %>
+<div class="row justify-content-md-center mt-5">
+    <form class="col col-md-5" id="form" method="post">
+        <h1>Login</h1>
+        <% if(locals.invalid === true) { %>
+            <h5>Username or password invalid!</h5>
+        <% } %>
+        <div class="input-group has-validation mt-2">
+            <span class="input-group-text" id="inputGroupPrepend">@</span>
+            <input name="username" type="text" class="form-control" aria-describedby="inputGroupPrepend" required
+                   placeholder="Username" value="<%= locals.username ? username : '' %>">
+        </div>
+        <div class="input-group has-validation mt-1">
+            <input id="password" name="password" type="password" class="form-control" required
+                   placeholder="Password">
+        </div>
+        <button type="submit" class="btn btn-primary mt-2">Login</button>
+    </form>
+</div>
+<%- include('../partials/footer'); %>

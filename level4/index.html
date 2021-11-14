@@ -1,0 +1,32 @@
+<html>
+<head>
+    <script src="https://cdn.auth0.com/js/auth0-spa-js/1.12/auth0-spa-js.production.js"></script>
+    <script>
+        window.onload = async () => {
+            const auth0 = await createAuth0Client({
+                domain: 'wiomoc.eu.auth0.com',
+                audience: 'http://localhost:8080',
+                client_id: 'fmtCOgumVyvqjWuozdfcTiiPndaBvplv'
+            });
+            console.log(auth0)
+            document.getElementById('login').addEventListener('click', async () => {
+                await auth0.loginWithRedirect({
+                    redirect_uri: window.location.origin
+                });
+            });
+            const query = window.location.search;
+            if (query.includes("code=") && query.includes("state=")) {
+                await auth0.handleRedirectCallback();
+                window.history.replaceState({}, document.title, "/");
+            }
+
+            const accessToken = await auth0.getTokenSilently();
+            console.log(accessToken);
+
+        }
+    </script>
+</head>
+<body>
+<button id="login">Login</button>
+</body>
+</html>

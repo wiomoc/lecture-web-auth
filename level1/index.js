@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const basicAuth = require('express-basic-auth')
 const app = express();
 const PORT = 8080
 // CSRF protection
@@ -14,6 +15,11 @@ const sanitizeHtml = require('sanitize-html');
 
 app.set('view engine', 'ejs');
 
+const withBasicAuth = basicAuth({
+    users: {'admin': 'donald'},
+    challenge: true,
+    realm: 'SecZero Admin Space',
+})
 
 app.get('/', (req, res) => {
     db.getPostsSummary((err, posts) => {
@@ -41,11 +47,11 @@ app.get('/post/:id', (req, res) => {
     })
 });
 
-app.get('/newpost', csrfProtection, (req, res) => {
+app.get('/newpost', withBasicAuth, csrfProtection, (req, res) => {
     res.render('pages/newpost', {csrfToken: req.csrfToken()});
 });
 
-app.post('/newpost', bodyParser.urlencoded(), csrfProtection, (req, res) => {
+app.post('/newpost', withBasicAuth, bodyParser.urlencoded(), csrfProtection, (req, res) => {
     // TODO validate
     db.createPost(req.body, (err, id) => {
         if (err) {
@@ -54,6 +60,29 @@ app.post('/newpost', bodyParser.urlencoded(), csrfProtection, (req, res) => {
             return;
         }
         res.redirect('/post/' + id);
+    })
+});
+
+app.get('/post/:id/edit', withBasicAuth, csrfProtection, (req, res) => {
+    db.getPost(req.params.id, (err, post) => {
+        if (err || !post) {
+            res.status(404);
+            res.end();
+            return;
+        }
+        res.render('pages/editpost', {post, csrfToken: req.csrfToken()});
+    })
+});
+
+app.post('/post/:id/edit', withBasicAuth, bodyParser.urlencoded(), csrfProtection, (req, res) => {
+    // TODO validate
+    db.updatePost(req.params.id, req.body, (err) => {
+        if (err) {
+            res.status(500)
+            res.end();
+            return;
+        }
+        res.redirect('/post/' + req.params.id);
     })
 });
 

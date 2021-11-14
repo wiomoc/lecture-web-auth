@@ -1,0 +1,10 @@
+<%- include('../partials/header', {subtitle: post.title}); %>
+<h1><%= post.title %></h1>
+<div class="blockquote-footer mt-1"><%= post.author %> </div>
+<div class="mt-2">
+    <%- htmlContent %>
+</div>
+<% if(locals.user && post.authorId === user.id) { %>
+    <a href="/post/<%=post.id%>/edit">Edit</a>
+<% } %>
+<%- include('../partials/footer'); %>
