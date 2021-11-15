@@ -1,4 +1,4 @@
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.0/reveal.min.css"
           integrity="sha512-vFD6wFRj2whK8/X/dMgxJHinKfGlwMYtN+yRCxvxvmOgIiMIlgrFb5iOuCoqwCID+Qcq2/gY8DpmNHcAjfHWxw=="
@@ -214,19 +214,30 @@ const same = bcrypt.compareSync(myPlaintextPassword, hash);
                 <h2>Authentication with passport.js</h2>
                 <pre class="js"><code>const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
-const session = require('express-session');
 const passport = require('passport');
 
-const bcrypt = require('bcrypt');
-app.use(session({
-  secret: 'mysecret'
-}));
 app.use(passport.initialize());
-app.use(passport.session());
                 </code></pre>
             </section>
             <section>
-                <h2>Authentication with passport.js - Strategy</h2>
+                <h2>passport.js - Session</h2>
+                <pre class="js"><code>const session = require('express-session');
+
+app.use(session({
+  secret: 'mysecret'
+}));
+app.use(passport.session());
+passport.serializeUser(function (user, done) {
+    done(null, user.id); // store only userId in session
+});
+
+passport.deserializeUser(function (id, done) {
+    db.getUser(id, done);
+});
+                </code></pre>
+            </section>
+            <section>
+                <h2>passport.js - Strategy</h2>
                 <pre class="js"><code>const LocalStrategy = require('passport-local').Strategy;
 passport.use(new LocalStrategy(
  function (username, password, done) {
@@ -245,7 +256,7 @@ passport.use(new LocalStrategy(
                 </code></pre>
             </section>
             <section>
-                <h2>Authentication with passport.js - Login</h2>
+                <h2>passport.js - Login</h2>
                 <pre class="html"><code>&lt;form method="post"&gt;
   &lt;h1&gt;Login&lt;/h1&gt;
   &lt;input name="username" type="text"
@@ -256,7 +267,7 @@ passport.use(new LocalStrategy(
 &lt;/form&gt;</code></pre>
             </section>
             <section>
-                <h2>Authentication with passport.js - Login</h2>
+                <h2>passport.js - Login</h2>
                 <pre class="js"><code>app.post('/login',
   bodyParser.urlencoded(), // username & password are transmitted in body
   passport.authenticate('local', { successRedirect: '/',
@@ -265,7 +276,7 @@ passport.use(new LocalStrategy(
                 </code></pre>
             </section>
             <section>
-                <h2>Authentication with passport.js - Register</h2>
+                <h2>passport.js - Register</h2>
                 <pre class="js"><code>app.post('/register', bodyParser.urlencoded(), (req, res) => {
   const user = {
     name: req.body.username,
@@ -283,8 +294,39 @@ passport.use(new LocalStrategy(
  })
                 </code></pre>
             </section>
-        </section>
+            <section>
+                <h2>passport.js - Authorization</h2>
+                <pre class="js"><code>const loggedIn = (req, res, next) => {
+  if (req.user) {
+    console.log("Request by: " + req.user.name);
+    next();
+  } else {
+    res.redirect('/login');
+  }
+}
 
+app.get('/newpost', loggedIn, (req, res) => { // ...
+                </code></pre>
+            </section>
+            <section>
+                <h2>Problems</h2>
+                <ul>
+                    <li class="fragment fade-in">We have to build a lot by our self</li>
+                    <li class="fragment fade-in">No email validation</li>
+                    <li class="fragment fade-in">No multi-factor-authentication</li>
+                    <li class="fragment fade-in">Password reset ?!</li>
+                    <li class="fragment fade-in">I wanna signup with my twitter...</li>
+                </ul>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h2>Level 3</h2>
+            </section>
+            <section>
+                <h2>Requirements</h2>
+            </section>
+        </section>
     </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.0/reveal.min.js"
