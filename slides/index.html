@@ -1,0 +1,176 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.0/reveal.min.css"
+          integrity="sha512-vFD6wFRj2whK8/X/dMgxJHinKfGlwMYtN+yRCxvxvmOgIiMIlgrFb5iOuCoqwCID+Qcq2/gY8DpmNHcAjfHWxw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.0/theme/black.min.css"
+          integrity="sha512-DKeDMgkMDBNgY3g8T6H6Ft5cB7St0LOh5d69BvETIcTrP0E3d3KhANTMs5QOTMnenXy6JVKz/tENmffCLeXPiQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.0/plugin/highlight/zenburn.min.css"
+          integrity="sha512-JPxjD2t82edI35nXydY/erE9jVPpqxEJ++6nYEoZEpX2TRsmp2FpZuQqZa+wBCen5U16QZOkMadGXHCfp+tUdg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"
+            integrity="sha512-Pbb8o120v5/hN/a6LjF4N4Lxou+xYZ0QcVF8J6TWhBbHmctQWd8O6xTDmHpE/91OjPzCk4JRoiJsexHYg4SotQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <title>Web Auth</title>
+    <style>
+        .reveal section img {
+            border: none;
+        }
+    </style>
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section>
+            <section>
+                <h1>Authentication &amp; Authorization</h1>
+                <h2>for Web Apps</h2>
+            </section>
+            <section>
+                <h2>Authentication</h2>
+                <p>Who are you?</p>
+                <p class="fragment fade-in">
+                    <img src="auth_login.png" width="30%">
+                </p>
+            </section>
+            <section>
+                <h2>Authorization</h2>
+                <p>What are you allowed to do?</p>
+                <blockquote class="fragment fade-in">
+                    Site <strong>settings</strong> may be accessed
+                    if user in group <strong>admin</strong>
+                </blockquote>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h2>Level 0</h2>
+            </section>
+            <section>
+                <img src="blog_index.png" width="30%">
+                <img src="blog_post.png" width="30%">
+                <img src="blog_new_post.png" width="30%">
+            </section>
+            <section>
+                <h2>Techstack</h2>
+                <p><strong>Server-Side-Rendering</strong></p>
+                <ul>
+                    <li>node.js</li>
+                    <li>express.js &rarr; web framework</li>
+                    <li>ejs &rarr; template engine</li>
+                    <li>sqlite &rarr; database</li>
+                    <li>marked &rarr; markdown renderer</li>
+                    <li><i>csurf &rarr; cross-site request forgery protection</i></li>
+                    <li><i>sanitize-html &rarr; html sanitizer</i></li>
+                </ul>
+            </section>
+            <section>
+                <h2>EJS</h2>
+                <pre class="js">
+                    <code>const express = require('express');
+const app = express();
+app.set('view engine', 'ejs');
+
+app.get('/', (req, res) => {
+    db.getPostsSummary((err, posts) => {
+        if (err) {
+            // error handling
+        }
+        res.render('pages/index', {posts});
+    })
+});
+
+app.listen(8080, () => console.log(`Started on Port 8080`));
+</code></pre>
+            </section>
+            <section>
+                <h2>EJS</h2>
+                <pre class="ejs"><code>&lt;%- include('../partials/header'); %&gt;
+&lt;div class="mt-1 list-group"&gt;
+  &lt;% for(let post of posts) { %&gt;
+    &lt;a class="list-group-item list-group-item-action"
+          href="/post/&lt;%= post.id %&gt;"&gt;
+      &lt;h5 class="card-title"&gt;&lt;%= post.title %&gt;&lt;/h5&gt;
+      &lt;p class="card-text"&gt;
+        &lt;%= post.summary %&gt; &mdash; &lt;%= post.author %&gt;
+      &lt;/p&gt;
+    &lt;/a&gt;
+  &lt;% } %&gt;
+&lt;/div&gt;
+&lt;%- include('../partials/footer'); %&gt;
+</code></pre>
+            </section>
+            <section>
+                <h2>Problem</h2>
+                <p class="fragment fade-in" style="color: red">Everyone can create posts</p>
+                <p class="fragment fade-in">and this under an arbitrary author name</p>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h2>Level 1</h2>
+                <p><strong>First solution:</strong> admin login</p>
+            </section>
+            <section>
+                <h2>Basic Auth</h2>
+                <img src="basic_auth_window.png" width="80%">
+            </section>
+            <section>
+                <pre class="js"><code>const basicAuth = require('express-basic-auth')
+const withBasicAuth = basicAuth({
+  users: {'admin': 'donald'}, // user: 'admin', password: 'donald'
+  challenge: true, // show login promt in browser
+  realm: 'SecZero Admin Space', // name of the protected space
+})
+
+app.get('/newpost', withBasicAuth, (req, res) => { // ...
+</code></pre>
+            </section>
+            <section>
+                <h2>First request</h2>
+                <img src="basic_no_auth.png">
+            </section>
+            <section>
+                <img src="basic_auth_window.png" width="80%">
+            </section>
+            <section>
+                <h2>Second request</h2>
+                <p>Username &amp; password base64 encoded <pre class="bash"><code>echo -n admin:donald | base64 # &rarr; YWRtaW46ZG9uYWxk</code></pre></p>
+                <img src="basic_auth.png" height="50%">
+            </section>
+            <section>
+                <h2>Problems</h2>
+                <ul>
+                    <li class="fragment fade-in">Only the admin create posts &rarr; no possibility to signup</li>
+                    <li class="fragment fade-in">Login form just doesn't looks nice</li>
+                </ul>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h2>Level 2</h2>
+            </section>
+        </section>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.0/reveal.min.js"
+        integrity="sha512-y4okK/ZWwAnUhmPRr1qrFfOpm3l3Z1sqL4Lird4+bVZp1VirrKjlSdg4x46G2oTP3/FZCv7NVFmaYB7AqCxqqA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+    Reveal.initialize({
+        dependencies: [
+            {
+                src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.0/plugin/highlight/highlight.min.js',
+                async: true,
+                callback: function () {
+                    hljs.initHighlightingOnLoad();
+                }
+            }
+        ]
+    });
+</script>
+</body>
+</html>
