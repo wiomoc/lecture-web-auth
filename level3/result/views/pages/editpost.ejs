@@ -1,0 +1,12 @@
+<%- include('../partials/header', {subtitle: 'Edit Post'}); %>
+<h1>Edit Post</h1>
+<form method="post">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <input type="title" name="title" class="form-control form-control-lg" placeholder="Title" required
+           value="<%= post.title %>">
+    <input type="summary" name="summary" class="form-control mt-1" placeholder="Summary" required
+           value="<%= post.summary %>">
+    <textarea name="content" class="form-control mt-1" rows="10"><%= post.summary %></textarea>
+    <button type="submit" class="btn btn-primary mt-1">Update Post</button>
+</form>
+<%- include('../partials/footer'); %>

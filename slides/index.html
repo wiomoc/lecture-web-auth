@@ -43,6 +43,15 @@
                     if user in group <strong>admin</strong>
                 </blockquote>
             </section>
+            <section>
+                <h2>Out-of-scope</h2>
+                <p>Transportsecurity TLS</p>
+                <p>CORS, XSS, CSRF ...</p>
+                <p class="fragment fade-in" style="color: red">Stay tuned for IT Sicherheit I + II</p>
+            </section>
+            <section>
+                <a>https://github.com/wiomoc/lecture-web-auth</a>
+            </section>
         </section>
         <section>
             <section>
@@ -157,12 +166,61 @@ app.get('/newpost', withBasicAuth, (req, res) => { // ...
             <section>
                 <h2>Requirements</h2>
                 <ul>
-                    <li>Login &rarr; check username &amp; password in database</li>
-                    <li>Register &rarr; create account in database and login</li>
-                    <li>Store password securily <strong>not in plain text</strong></li>
-                    <li>Create session after login</li>
-                    <li>Logout &rarr; end session</li>
+                    <li class="fragment fade-in">Login &rarr; <strong>Authentication</strong>: check username &amp; password from database</li>
+                    <li class="fragment fade-in">Register &rarr; create account in database and login</li>
+                    <li class="fragment fade-in">Store password securily <strong>not in plain text</strong></li>
+                    <li class="fragment fade-in">Login should be persistent &rarr; Create session after login</li>
+                    <li class="fragment fade-in">Logout &rarr; End session</li>
+                    <li class="fragment fade-in">Only signed in user are allowed to create posts &rarr; <strong>Authorization</strong></li>
                 </ul>
+            </section>
+            <section>
+                <h2>Authentication with passport.js</h2>
+                <pre class="js"><code>const passport = require('passport');
+
+app.use(passport.initialize());</code></pre>
+            </section>
+            <section>
+            <h2>passport.js - Strategy</h2>
+            <pre class="js"><code>const LocalStrategy = require('passport-local').Strategy;
+passport.use(new LocalStrategy(
+  function (username, password, done) {
+    db.getUserByName(username, (err, user) => {
+      if (!user || err) {
+        done(err, false);
+      } else {
+        if (password === user.password) {
+          done(null, user);
+        } else {
+          done(null, false);
+        }
+      }
+    })
+}))</code></pre>
+            </section>
+            <section>
+                <h2>passport.js - Login</h2>
+                <pre class="html"><code>&lt;form method="post"&gt;
+  &lt;h1&gt;Login&lt;/h1&gt;
+  &lt;input name="username" type="text"
+            placeholder="Username" required&gt;
+  &lt;input name="password" type="password"
+            placeholder="Password" required&gt;
+  &lt;button type="submit"&gt;Login&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+            </section>
+            <section>
+                <h2>passport.js - Login</h2>
+                <pre class="js"><code>const bodyParser = require('body-parser');
+app.post('/login',
+  bodyParser.urlencoded(), // username & password are transmitted in body
+  passport.authenticate('local', { successRedirect: '/',
+                                   failureRedirect: '/login' })
+)
+
+app.get('/login', (req, res) => {
+    res.render('pages/login')
+})</code></pre>
             </section>
             <section>
                 <h2>Session</h2>
@@ -181,43 +239,16 @@ app.get('/store', (req, res) => {
             </section>
             <section>
                 <h2>Session</h2>
+                <img src="session.svg">
+            </section>
+            <section>
+                <h2>Session</h2>
                 <ul>
                     <li>Server sends a cookie which includes the session id to the browser</li>
                     <li>Browser stores the cookie and sends it in every subsequent request</li>
                     <li>Server looks up the session by the received session id</li>
                 </ul>
                 <img src="session_cookie.png">
-            </section>
-            <section>
-                <h2>How to safely store a password</h2>
-                <ul>
-                    <li>Definitely <strong>NOT</strong> in plaintext &rarr; everyone can read it</li>
-                    <li>Hashed (md5, sha256)&rarr; better but vulnerable against brute force &amp; dictionary attacks
-                    </li>
-                    <li>Salted &amp; Hashed &rarr; pbkdf2, bcrypt</li>
-                </ul>
-            </section>
-            <section>
-                <h2>How to safely store a password</h2>
-                <pre class="js"><code>const bcrypt = require('bcrypt');
-// generate hashed password
-const saltRounds = 10;
-const salt = bcrypt.genSaltSync(saltRounds);
-const hash = bcrypt.hashSync(myPlaintextPassword, salt);
-// e.g. '$2b$10$LMsb3CBgMJ0Odol.fFL7sujRwj3vYCbTgQHTcZXj6RmkNxLrqlN8O'
-
-// compare password with hashed password
-const same = bcrypt.compareSync(myPlaintextPassword, hash);
-</code></pre>
-            </section>
-            <section>
-                <h2>Authentication with passport.js</h2>
-                <pre class="js"><code>const bcrypt = require('bcrypt');
-const bodyParser = require('body-parser');
-const passport = require('passport');
-
-app.use(passport.initialize());
-                </code></pre>
             </section>
             <section>
                 <h2>passport.js - Session</h2>
@@ -235,6 +266,28 @@ passport.deserializeUser(function (id, done) {
     db.getUser(id, done);
 });
                 </code></pre>
+            <section>
+                <h2>How to safely store a password</h2>
+                <ul>
+                    <li class="fragment fade-in">Definitely <strong>NOT</strong> in plaintext &rarr; everyone with database access can read it</li>
+                    <li class="fragment fade-in">Hashed (<tt>md5</tt>, <tt>sha256</tt>)&rarr; better but vulnerable against brute force &amp; dictionary attacks</li>
+                    <li class="fragment fade-in">Salted &amp; Hashed &rarr; better but vulnerable against brute force attacks</li>
+                    <li class="fragment fade-in" style ="color: green;">Salted &amp; Hashed in multiple iterations &rarr; pbkdf2, bcrypt</li>
+                </ul>
+            </section>
+            <section>
+                <h2>How to safely store a password</h2>
+                <pre class="js"><code>const bcrypt = require('bcrypt');
+// generate hashed password
+const saltRounds = 10;
+const salt = bcrypt.genSaltSync(saltRounds);
+const hash = bcrypt.hashSync(myPlaintextPassword, salt);
+// e.g. '$2b$10$LMsb3CBgMJ0Odol.fFL7sujRwj3vYCbTgQHTcZXj6RmkNxLrqlN8O'
+
+// compare password with hashed password
+const same = bcrypt.compareSync(myPlaintextPassword, hash);
+</code></pre>
+            </section>
             </section>
             <section>
                 <h2>passport.js - Strategy</h2>
@@ -253,26 +306,6 @@ passport.use(new LocalStrategy(
     }
   })
 }))
-                </code></pre>
-            </section>
-            <section>
-                <h2>passport.js - Login</h2>
-                <pre class="html"><code>&lt;form method="post"&gt;
-  &lt;h1&gt;Login&lt;/h1&gt;
-  &lt;input name="username" type="text"
-            placeholder="Username" required&gt;
-  &lt;input name="password" type="password"
-            placeholder="Password" required&gt;
-  &lt;button type="submit"&gt;Login&lt;/button&gt;
-&lt;/form&gt;</code></pre>
-            </section>
-            <section>
-                <h2>passport.js - Login</h2>
-                <pre class="js"><code>app.post('/login',
-  bodyParser.urlencoded(), // username & password are transmitted in body
-  passport.authenticate('local', { successRedirect: '/',
-                                   failureRedirect: '/login' })
-)
                 </code></pre>
             </section>
             <section>
@@ -322,10 +355,26 @@ app.get('/newpost', loggedIn, (req, res) => { // ...
         <section>
             <section>
                 <h2>Level 3</h2>
+                <p>External identity provider</p>
             </section>
             <section>
-                <h2>Requirements</h2>
+                <img src="auth0-logo.png">
+                <p class="fragment fade-in">Uses <strong>OAuth2</strong>, non proprietary protocol</p>
             </section>
+            <section>
+                <h2>OAuth2 Authentication Code Grant</h2>
+                <img src="https://assets.digitalocean.com/articles/oauth/auth_code_flow.png">
+            </section>
+        </section>
+        <section>
+            <h2>Take aways</h2>
+            <ul>
+                <li class="fragment fade-in">Difference between Authentication and Authorization</li>
+                <li class="fragment fade-in">Usage of basic auth</li>
+                <li class="fragment fade-in">Introduction into passport.js and sessions</li>
+                <li class="fragment fade-in">Secure storage of credentials</li>
+                <li class="fragment fade-in">Auth0</li>
+            </ul>
         </section>
     </div>
 </div>
