@@ -1,18 +1,10 @@
 <html xmlns="http://www.w3.org/1999/html">
+
 <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.0/reveal.min.css"
-          integrity="sha512-vFD6wFRj2whK8/X/dMgxJHinKfGlwMYtN+yRCxvxvmOgIiMIlgrFb5iOuCoqwCID+Qcq2/gY8DpmNHcAjfHWxw=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.0/theme/black.min.css"
-          integrity="sha512-DKeDMgkMDBNgY3g8T6H6Ft5cB7St0LOh5d69BvETIcTrP0E3d3KhANTMs5QOTMnenXy6JVKz/tENmffCLeXPiQ=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.0/plugin/highlight/zenburn.min.css"
-          integrity="sha512-JPxjD2t82edI35nXydY/erE9jVPpqxEJ++6nYEoZEpX2TRsmp2FpZuQqZa+wBCen5U16QZOkMadGXHCfp+tUdg=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"
-            integrity="sha512-Pbb8o120v5/hN/a6LjF4N4Lxou+xYZ0QcVF8J6TWhBbHmctQWd8O6xTDmHpE/91OjPzCk4JRoiJsexHYg4SotQ=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.0/reveal.min.css" integrity="sha512-vFD6wFRj2whK8/X/dMgxJHinKfGlwMYtN+yRCxvxvmOgIiMIlgrFb5iOuCoqwCID+Qcq2/gY8DpmNHcAjfHWxw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.0/theme/black.min.css" integrity="sha512-DKeDMgkMDBNgY3g8T6H6Ft5cB7St0LOh5d69BvETIcTrP0E3d3KhANTMs5QOTMnenXy6JVKz/tENmffCLeXPiQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.0/plugin/highlight/zenburn.min.css" integrity="sha512-JPxjD2t82edI35nXydY/erE9jVPpqxEJ++6nYEoZEpX2TRsmp2FpZuQqZa+wBCen5U16QZOkMadGXHCfp+tUdg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js" integrity="sha512-Pbb8o120v5/hN/a6LjF4N4Lxou+xYZ0QcVF8J6TWhBbHmctQWd8O6xTDmHpE/91OjPzCk4JRoiJsexHYg4SotQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <title>Web Auth</title>
     <style>
         .reveal section img {
@@ -20,64 +12,65 @@
         }
     </style>
 </head>
+
 <body>
-<div class="reveal">
-    <div class="slides">
-        <section>
+    <div class="reveal">
+        <div class="slides">
             <section>
-                <h1>Authentication &amp; Authorization</h1>
-                <h2>for Web Apps</h2>
+                <section>
+                    <h1>Authentication &amp; Authorization</h1>
+                    <h2>for Web Apps</h2>
+                </section>
+                <section>
+                    <h2>Authentication</h2>
+                    <p>Who are you?</p>
+                    <p class="fragment fade-in">
+                        <img src="auth_login.png" width="30%">
+                    </p>
+                </section>
+                <section>
+                    <h2>Authorization</h2>
+                    <p>What are you allowed to do?</p>
+                    <blockquote class="fragment fade-in">
+                        Site <strong>settings</strong> may be accessed
+                        if user in group <strong>admin</strong>
+                    </blockquote>
+                </section>
+                <section>
+                    <h2>Out-of-scope</h2>
+                    <p>Transportsecurity TLS</p>
+                    <p>CORS, XSS, CSRF ...</p>
+                    <p class="fragment fade-in" style="color: red">Stay tuned for IT Sicherheit I + II</p>
+                </section>
+                <section>
+                    <a>https://github.com/wiomoc/lecture-web-auth</a>
+                </section>
             </section>
             <section>
-                <h2>Authentication</h2>
-                <p>Who are you?</p>
-                <p class="fragment fade-in">
-                    <img src="auth_login.png" width="30%">
-                </p>
-            </section>
-            <section>
-                <h2>Authorization</h2>
-                <p>What are you allowed to do?</p>
-                <blockquote class="fragment fade-in">
-                    Site <strong>settings</strong> may be accessed
-                    if user in group <strong>admin</strong>
-                </blockquote>
-            </section>
-            <section>
-                <h2>Out-of-scope</h2>
-                <p>Transportsecurity TLS</p>
-                <p>CORS, XSS, CSRF ...</p>
-                <p class="fragment fade-in" style="color: red">Stay tuned for IT Sicherheit I + II</p>
-            </section>
-            <section>
-                <a>https://github.com/wiomoc/lecture-web-auth</a>
-            </section>
-        </section>
-        <section>
-            <section>
-                <h2>Level 0</h2>
-            </section>
-            <section>
-                <img src="blog_index.png" width="30%">
-                <img src="blog_post.png" width="30%">
-                <img src="blog_new_post.png" width="30%">
-            </section>
-            <section>
-                <h2>Techstack</h2>
-                <p><strong>Server-Side-Rendering</strong></p>
-                <ul>
-                    <li>node.js</li>
-                    <li>express.js &rarr; web framework</li>
-                    <li>ejs &rarr; template engine</li>
-                    <li>sqlite &rarr; database</li>
-                    <li>marked &rarr; markdown renderer</li>
-                    <li><i>csurf &rarr; cross-site request forgery protection</i></li>
-                    <li><i>sanitize-html &rarr; html sanitizer</i></li>
-                </ul>
-            </section>
-            <section>
-                <h2>EJS</h2>
-                <pre class="js">
+                <section>
+                    <h2>Level 0</h2>
+                </section>
+                <section>
+                    <img src="blog_index.png" width="30%">
+                    <img src="blog_post.png" width="30%">
+                    <img src="blog_new_post.png" width="30%">
+                </section>
+                <section>
+                    <h2>Techstack</h2>
+                    <p><strong>Server-Side-Rendering</strong></p>
+                    <ul>
+                        <li>node.js</li>
+                        <li>express.js &rarr; web framework</li>
+                        <li>ejs &rarr; template engine</li>
+                        <li>sqlite &rarr; database</li>
+                        <li>marked &rarr; markdown renderer</li>
+                        <li><i>csurf &rarr; cross-site request forgery protection</i></li>
+                        <li><i>sanitize-html &rarr; html sanitizer</i></li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>EJS</h2>
+                    <pre class="js">
                     <code>const express = require('express');
 const app = express();
 app.set('view engine', 'ejs');
@@ -93,10 +86,10 @@ app.get('/', (req, res) => {
 
 app.listen(8080, () => console.log(`Started on Port 8080`));
 </code></pre>
-            </section>
-            <section>
-                <h2>EJS</h2>
-                <pre class="ejs"><code>&lt;%- include('../partials/header'); %&gt;
+                </section>
+                <section>
+                    <h2>EJS</h2>
+                    <pre class="ejs"><code>&lt;%- include('../partials/header'); %&gt;
 &lt;div class="mt-1 list-group"&gt;
   &lt;% for(let post of posts) { %&gt;
     &lt;a class="list-group-item list-group-item-action"
@@ -110,24 +103,24 @@ app.listen(8080, () => console.log(`Started on Port 8080`));
 &lt;/div&gt;
 &lt;%- include('../partials/footer'); %&gt;
 </code></pre>
+                </section>
+                <section>
+                    <h2>Problem</h2>
+                    <p class="fragment fade-in" style="color: red">Everyone can create posts</p>
+                    <p class="fragment fade-in">and this under an arbitrary author name</p>
+                </section>
             </section>
             <section>
-                <h2>Problem</h2>
-                <p class="fragment fade-in" style="color: red">Everyone can create posts</p>
-                <p class="fragment fade-in">and this under an arbitrary author name</p>
-            </section>
-        </section>
-        <section>
-            <section>
-                <h2>Level 1</h2>
-                <p><strong>First solution:</strong> admin login</p>
-            </section>
-            <section>
-                <h2>Basic Auth</h2>
-                <img src="basic_auth_window.png" width="80%">
-            </section>
-            <section>
-                <pre class="js"><code>const basicAuth = require('express-basic-auth')
+                <section>
+                    <h2>Level 1</h2>
+                    <p><strong>First solution:</strong> admin login</p>
+                </section>
+                <section>
+                    <h2>Basic Auth</h2>
+                    <img src="basic_auth_window.png" width="80%">
+                </section>
+                <section>
+                    <pre class="js"><code>const basicAuth = require('express-basic-auth')
 const withBasicAuth = basicAuth({
   users: {'admin': 'donald'}, // user: 'admin', password: 'donald'
   challenge: true, // show login promt in browser
@@ -136,53 +129,53 @@ const withBasicAuth = basicAuth({
 
 app.get('/newpost', withBasicAuth, (req, res) => { // ...
 </code></pre>
+                </section>
+                <section>
+                    <h2>First request</h2>
+                    <img src="basic_no_auth.png">
+                </section>
+                <section>
+                    <img src="basic_auth_window.png" width="80%">
+                </section>
+                <section>
+                    <h2>Second request</h2>
+                    <p>Username &amp; password base64 encoded
+                    <pre class="bash"><code>echo -n admin:donald | base64 # &rarr; YWRtaW46ZG9uYWxk</code></pre>
+                    </p>
+                    <img src="basic_auth.png" height="50%">
+                </section>
+                <section>
+                    <h2>Problems</h2>
+                    <ul>
+                        <li class="fragment fade-in">Only the admin create posts &rarr; no possibility to signup</li>
+                        <li class="fragment fade-in">Login form just doesn't looks nice</li>
+                    </ul>
+                </section>
             </section>
             <section>
-                <h2>First request</h2>
-                <img src="basic_no_auth.png">
-            </section>
-            <section>
-                <img src="basic_auth_window.png" width="80%">
-            </section>
-            <section>
-                <h2>Second request</h2>
-                <p>Username &amp; password base64 encoded
-                <pre class="bash"><code>echo -n admin:donald | base64 # &rarr; YWRtaW46ZG9uYWxk</code></pre>
-                </p>
-                <img src="basic_auth.png" height="50%">
-            </section>
-            <section>
-                <h2>Problems</h2>
-                <ul>
-                    <li class="fragment fade-in">Only the admin create posts &rarr; no possibility to signup</li>
-                    <li class="fragment fade-in">Login form just doesn't looks nice</li>
-                </ul>
-            </section>
-        </section>
-        <section>
-            <section>
-                <h2>Level 2</h2>
-            </section>
-            <section>
-                <h2>Requirements</h2>
-                <ul>
-                    <li class="fragment fade-in">Login &rarr; <strong>Authentication</strong>: check username &amp; password from database</li>
-                    <li class="fragment fade-in">Register &rarr; create account in database and login</li>
-                    <li class="fragment fade-in">Store password securily <strong>not in plain text</strong></li>
-                    <li class="fragment fade-in">Login should be persistent &rarr; Create session after login</li>
-                    <li class="fragment fade-in">Logout &rarr; End session</li>
-                    <li class="fragment fade-in">Only signed in user are allowed to create posts &rarr; <strong>Authorization</strong></li>
-                </ul>
-            </section>
-            <section>
-                <h2>Authentication with passport.js</h2>
-                <pre class="js"><code>const passport = require('passport');
+                <section>
+                    <h2>Level 2</h2>
+                </section>
+                <section>
+                    <h2>Requirements</h2>
+                    <ul>
+                        <li class="fragment fade-in">Login &rarr; <strong>Authentication</strong>: check username &amp; password from database</li>
+                        <li class="fragment fade-in">Register &rarr; create account in database and login</li>
+                        <li class="fragment fade-in">Store password securily <strong>not in plain text</strong></li>
+                        <li class="fragment fade-in">Login should be persistent &rarr; Create session after login</li>
+                        <li class="fragment fade-in">Logout &rarr; End session</li>
+                        <li class="fragment fade-in">Only signed in user are allowed to create posts &rarr; <strong>Authorization</strong></li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Authentication with passport.js</h2>
+                    <pre class="js"><code>const passport = require('passport');
 
 app.use(passport.initialize());</code></pre>
-            </section>
-            <section>
-            <h2>passport.js - Strategy</h2>
-            <pre class="js"><code>const LocalStrategy = require('passport-local').Strategy;
+                </section>
+                <section>
+                    <h2>passport.js - Strategy</h2>
+                    <pre class="js"><code>const LocalStrategy = require('passport-local').Strategy;
 passport.use(new LocalStrategy(
   function (username, password, done) {
     db.getUserByName(username, (err, user) => {
@@ -197,10 +190,10 @@ passport.use(new LocalStrategy(
       }
     })
 }))</code></pre>
-            </section>
-            <section>
-                <h2>passport.js - Login</h2>
-                <pre class="html"><code>&lt;form method="post"&gt;
+                </section>
+                <section>
+                    <h2>passport.js - Login</h2>
+                    <pre class="html"><code>&lt;form method="post"&gt;
   &lt;h1&gt;Login&lt;/h1&gt;
   &lt;input name="username" type="text"
             placeholder="Username" required&gt;
@@ -208,10 +201,10 @@ passport.use(new LocalStrategy(
             placeholder="Password" required&gt;
   &lt;button type="submit"&gt;Login&lt;/button&gt;
 &lt;/form&gt;</code></pre>
-            </section>
-            <section>
-                <h2>passport.js - Login</h2>
-                <pre class="js"><code>const bodyParser = require('body-parser');
+                </section>
+                <section>
+                    <h2>passport.js - Login</h2>
+                    <pre class="js"><code>const bodyParser = require('body-parser');
 app.post('/login',
   bodyParser.urlencoded(), // username & password are transmitted in body
   passport.authenticate('local', { successRedirect: '/',
@@ -221,10 +214,10 @@ app.post('/login',
 app.get('/login', (req, res) => {
     res.render('pages/login')
 })</code></pre>
-            </section>
-            <section>
-                <h2>Session</h2>
-                <pre class="js"><code data-line-numbers="1,2,6,9">const session = require('express-session');
+                </section>
+                <section>
+                    <h2>Session</h2>
+                    <pre class="js"><code data-line-numbers="1,2,6,9">const session = require('express-session');
 app.use(session({ secret: 'mysecret'}));
 
 app.get('/store', (req, res) => {
@@ -236,23 +229,23 @@ app.get('/store', (req, res) => {
   }
 })
 </code></pre>
-            </section>
-            <section>
-                <h2>Session</h2>
-                <img src="session.svg">
-            </section>
-            <section>
-                <h2>Session</h2>
-                <ul>
-                    <li>Server sends a cookie which includes the session id to the browser</li>
-                    <li>Browser stores the cookie and sends it in every subsequent request</li>
-                    <li>Server looks up the session by the received session id</li>
-                </ul>
-                <img src="session_cookie.png">
-            </section>
-            <section>
-                <h2>passport.js - Session</h2>
-                <pre class="js"><code>const session = require('express-session');
+                </section>
+                <section>
+                    <h2>Session</h2>
+                    <img src="session.svg">
+                </section>
+                <section>
+                    <h2>Session</h2>
+                    <ul>
+                        <li>Server sends a cookie which includes the session id to the browser</li>
+                        <li>Browser stores the cookie and sends it in every subsequent request</li>
+                        <li>Server looks up the session by the received session id</li>
+                    </ul>
+                    <img src="session_cookie.png">
+                </section>
+                <section>
+                    <h2>passport.js - Session</h2>
+                    <pre class="js"><code>const session = require('express-session');
 
 app.use(session({
   secret: 'mysecret'
@@ -266,18 +259,19 @@ passport.deserializeUser(function (id, done) {
     db.getUser(id, done);
 });
                 </code></pre>
-            <section>
-                <h2>How to safely store a password</h2>
-                <ul>
-                    <li class="fragment fade-in">Definitely <strong>NOT</strong> in plaintext &rarr; everyone with database access can read it</li>
-                    <li class="fragment fade-in">Hashed (<tt>md5</tt>, <tt>sha256</tt>)&rarr; better but vulnerable against brute force &amp; dictionary attacks</li>
-                    <li class="fragment fade-in">Salted &amp; Hashed &rarr; better but vulnerable against brute force attacks</li>
-                    <li class="fragment fade-in" style ="color: green;">Salted &amp; Hashed in multiple iterations &rarr; pbkdf2, bcrypt</li>
-                </ul>
-            </section>
-            <section>
-                <h2>How to safely store a password</h2>
-                <pre class="js"><code>const bcrypt = require('bcrypt');
+                </section>
+                <section>
+                    <h2>How to safely store a password</h2>
+                    <ul>
+                        <li class="fragment fade-in">Definitely <strong>NOT</strong> in plaintext &rarr; everyone with database access can read it</li>
+                        <li class="fragment fade-in">Hashed (<tt>md5</tt>, <tt>sha256</tt>)&rarr; better but vulnerable against brute force &amp; dictionary attacks</li>
+                        <li class="fragment fade-in">Salted &amp; Hashed &rarr; better but vulnerable against brute force attacks</li>
+                        <li class="fragment fade-in" style="color: green;">Salted &amp; Hashed in multiple iterations &rarr; pbkdf2, bcrypt</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>How to safely store a password</h2>
+                    <pre class="js"><code>const bcrypt = require('bcrypt');
 // generate hashed password
 const saltRounds = 10;
 const salt = bcrypt.genSaltSync(saltRounds);
@@ -287,11 +281,10 @@ const hash = bcrypt.hashSync(myPlaintextPassword, salt);
 // compare password with hashed password
 const same = bcrypt.compareSync(myPlaintextPassword, hash);
 </code></pre>
-            </section>
-            </section>
-            <section>
-                <h2>passport.js - Strategy</h2>
-                <pre class="js"><code>const LocalStrategy = require('passport-local').Strategy;
+                </section>
+                <section>
+                    <h2>passport.js - Strategy</h2>
+                    <pre class="js"><code>const LocalStrategy = require('passport-local').Strategy;
 passport.use(new LocalStrategy(
  function (username, password, done) {
   db.getUserByName(username, (err, user) => {
@@ -307,10 +300,10 @@ passport.use(new LocalStrategy(
   })
 }))
                 </code></pre>
-            </section>
-            <section>
-                <h2>passport.js - Register</h2>
-                <pre class="js"><code>app.post('/register', bodyParser.urlencoded(), (req, res) => {
+                </section>
+                <section>
+                    <h2>passport.js - Register</h2>
+                    <pre class="js"><code>app.post('/register', bodyParser.urlencoded(), (req, res) => {
   const user = {
     name: req.body.username,
     password: bcrypt.hashSync(req.body.password,
@@ -326,10 +319,10 @@ passport.use(new LocalStrategy(
   })
  })
                 </code></pre>
-            </section>
-            <section>
-                <h2>passport.js - Authorization</h2>
-                <pre class="js"><code>const loggedIn = (req, res, next) => {
+                </section>
+                <section>
+                    <h2>passport.js - Authorization</h2>
+                    <pre class="js"><code>const loggedIn = (req, res, next) => {
   if (req.user) {
     console.log("Request by: " + req.user.name);
     next();
@@ -340,60 +333,59 @@ passport.use(new LocalStrategy(
 
 app.get('/newpost', loggedIn, (req, res) => { // ...
                 </code></pre>
+                </section>
+                <section>
+                    <h2>Problems</h2>
+                    <ul>
+                        <li class="fragment fade-in">We have to build a lot by our self</li>
+                        <li class="fragment fade-in">No email validation</li>
+                        <li class="fragment fade-in">No multi-factor-authentication</li>
+                        <li class="fragment fade-in">Password reset ?!</li>
+                        <li class="fragment fade-in">I wanna signup with my twitter...</li>
+                    </ul>
+                </section>
             </section>
             <section>
-                <h2>Problems</h2>
+                <section>
+                    <h2>Level 3</h2>
+                    <p>External identity provider</p>
+                </section>
+                <section>
+                    <img src="auth0-logo.png">
+                    <p class="fragment fade-in">Uses <strong>OAuth2</strong>, non proprietary protocol</p>
+                </section>
+                <section>
+                    <h2>OAuth2 Authentication Code Grant</h2>
+                    <img src="https://assets.digitalocean.com/articles/oauth/auth_code_flow.png">
+                </section>
+            </section>
+            <section>
+                <h2>Take aways</h2>
                 <ul>
-                    <li class="fragment fade-in">We have to build a lot by our self</li>
-                    <li class="fragment fade-in">No email validation</li>
-                    <li class="fragment fade-in">No multi-factor-authentication</li>
-                    <li class="fragment fade-in">Password reset ?!</li>
-                    <li class="fragment fade-in">I wanna signup with my twitter...</li>
+                    <li class="fragment fade-in">Difference between Authentication and Authorization</li>
+                    <li class="fragment fade-in">Usage of basic auth</li>
+                    <li class="fragment fade-in">Introduction into passport.js and sessions</li>
+                    <li class="fragment fade-in">Secure storage of credentials</li>
+                    <li class="fragment fade-in">Auth0</li>
                 </ul>
             </section>
-        </section>
-        <section>
-            <section>
-                <h2>Level 3</h2>
-                <p>External identity provider</p>
-            </section>
-            <section>
-                <img src="auth0-logo.png">
-                <p class="fragment fade-in">Uses <strong>OAuth2</strong>, non proprietary protocol</p>
-            </section>
-            <section>
-                <h2>OAuth2 Authentication Code Grant</h2>
-                <img src="https://assets.digitalocean.com/articles/oauth/auth_code_flow.png">
-            </section>
-        </section>
-        <section>
-            <h2>Take aways</h2>
-            <ul>
-                <li class="fragment fade-in">Difference between Authentication and Authorization</li>
-                <li class="fragment fade-in">Usage of basic auth</li>
-                <li class="fragment fade-in">Introduction into passport.js and sessions</li>
-                <li class="fragment fade-in">Secure storage of credentials</li>
-                <li class="fragment fade-in">Auth0</li>
-            </ul>
-        </section>
+        </div>
     </div>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.0/reveal.min.js"
-        integrity="sha512-y4okK/ZWwAnUhmPRr1qrFfOpm3l3Z1sqL4Lird4+bVZp1VirrKjlSdg4x46G2oTP3/FZCv7NVFmaYB7AqCxqqA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.0/reveal.min.js" integrity="sha512-y4okK/ZWwAnUhmPRr1qrFfOpm3l3Z1sqL4Lird4+bVZp1VirrKjlSdg4x46G2oTP3/FZCv7NVFmaYB7AqCxqqA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<script>
-    Reveal.initialize({
-        dependencies: [
-            {
-                src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.0/plugin/highlight/highlight.min.js',
-                async: true,
-                callback: function () {
-                    hljs.initHighlightingOnLoad();
+    <script>
+        Reveal.initialize({
+            dependencies: [
+                {
+                    src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.2.0/plugin/highlight/highlight.min.js',
+                    async: true,
+                    callback: function () {
+                        hljs.initHighlightingOnLoad();
+                    }
                 }
-            }
-        ]
-    });
-</script>
+            ]
+        });
+    </script>
 </body>
+
 </html>
